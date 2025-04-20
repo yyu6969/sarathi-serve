@@ -1,0 +1,2429 @@
+qid,question,date,metadata,response_j,response_k
+15431025,"I have published a successful app on play, but after upgrading the app when I sign and align the app and install it on an emulator/real device it force closes and gives me `ClassNotFound` Exception.
+
+```
+03-15 16:09:08.280: E/AndroidRuntime(7122): java.lang.RuntimeException: Unable to instantiate application william.shakespeare.MyBaseClass: java.lang.ClassNotFoundException: william.shakespeare.MyBaseClass
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.app.LoadedApk.makeApplication(LoadedApk.java:482)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.app.ActivityThread.handleBindApplication(ActivityThread.java:3909)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.app.ActivityThread.access$1300(ActivityThread.java:122)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1184)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.os.Handler.dispatchMessage(Handler.java:99)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.os.Looper.loop(Looper.java:137)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.app.ActivityThread.main(ActivityThread.java:4340)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at java.lang.reflect.Method.invokeNative(Native Method)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at java.lang.reflect.Method.invoke(Method.java:511)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:784)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:551)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at dalvik.system.NativeStart.main(Native Method)
+03-15 16:09:08.280: E/AndroidRuntime(7122): Caused by: java.lang.ClassNotFoundException: william.shakespeare.MyBaseClass
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:61)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at java.lang.ClassLoader.loadClass(ClassLoader.java:501)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at java.lang.ClassLoader.loadClass(ClassLoader.java:461)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.app.Instrumentation.newApplication(Instrumentation.java:942)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     at android.app.LoadedApk.makeApplication(LoadedApk.java:477)
+03-15 16:09:08.280: E/AndroidRuntime(7122):     ... 11 more
+
+```
+
+This is my Manifest file:
+
+```
+<manifest xmlns:android=""http://schemas.android.com/apk/res/android""
+    package=""william.shakespeare""
+    android:versionCode=""2""
+    android:versionName=""1.1"" >
+
+    <uses-sdk
+        android:minSdkVersion=""14""
+        android:targetSdkVersion=""14"" />
+
+    <uses-permission android:name=""android.permission.VIBRATE""/>
+    <uses-permission android:name=""android.permission.ACTION_SEND""/>
+    <uses-permission android:name=""android.permission.INTERNET""/>
+    <uses-permission android:name=""android.permission.WRITE_EXTERNAL_STORAGE""/>
+    <uses-permission android:name=""android.permission.BLUETOOTH""/>
+    <user-permission android:name=""android.permission.WRITE_SETTINGS"" />
+    <uses-permission android:name=""android.permission.RECEIVE_BOOT_COMPLETED""/>
+    <uses-permission android:name=""android.permission.ACCESS_NETWORK_STATE""/>
+    <uses-permission android:name=""android.permission.GET_TASKS""/>
+
+    <application
+        android:icon=""@drawable/ic_launcher""
+        android:theme=""@android:style/Theme.Holo.NoActionBar""
+        android:label=""William Shakespeare Quotes""
+        android:launchMode=""singleInstance""
+        android:name=""william.shakespeare.MyBaseClass""
+        >
+
+        <activity
+            android:name="".Splash_Screen""
+            android:label=""@string/title_activity_splash__screen""
+            android:launchMode=""singleInstance""
+            android:screenOrientation=""portrait""
+
+             >
+            <intent-filter>
+                <action android:name=""android.intent.action.MAIN"" />
+                <category android:name=""android.intent.category.LAUNCHER"" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="".AboutUs"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait""></activity>
+        <activity android:name="".Biography"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+        <activity android:name="".Category_List"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+        <activity android:name="".Favourite_Quote"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait""></activity>
+        <activity android:name="".Favourite_Single_Quote"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+        <activity android:name="".Help"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+        <activity android:name="".MainMenu"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+        <activity android:name="".MyCustomActionBar"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait""></activity>
+        <activity android:name="".Quote_List"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+        <activity android:name="".QuotesIn_Category"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+        <activity android:name="".SearchFrom"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait""></activity>
+        <activity android:name="".Settings"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+        <activity android:name="".Single_Category"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait""></activity>
+        <activity android:name="".Single_Quote"" android:launchMode=""singleInstance"" android:screenOrientation=""portrait"" ></activity>
+
+        <activity android:name=""com.google.ads.AdActivity""
+            android:configChanges=""keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize""/>
+
+        <receiver android:name="".Quote_Of_Day""/>
+        <receiver android:name="".Notification_Quote""/>
+        <receiver android:name="".Boot_Receiver"">
+    <intent-filter>  
+        <action android:name=""android.intent.action.BOOT_COMPLETED"" />  
+    </intent-filter>  
+</receiver>
+ </application>   
+ </manifest>
+
+```",2013/03/15,"[https://Stackoverflow.com/questions/15431025, https://Stackoverflow.com, https://Stackoverflow.com/users/1129047/]",ClassNotFound exception means that in your manifest file you have miss the Activity or may be you have not give correct name of the Activity.,Did you use ProGuard? It might have obfuscated some classes that shoudn't be obfuscated because they are referenced in an xml file (`AndroidManifest.xml` for example) or something. More on ProGuard can be found [here](http://developer.android.com/tools/help/proguard.html).
+29934164,"I have two fragments within one fragment using ViewPager.
+
+Sometimes my app crash with following error:
+
+```
+java.lang.RuntimeException: Unable to start activity ComponentInfo{com.myapp/com.myapp.MyAcitivity}: android.support.v4.app.Fragment$InstantiationException: Unable to instantiate fragment com.fragments.MyFragment: make sure class name exists, is public, and has an empty constructor that is public
+       at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2318)
+       at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2396)
+       at android.app.ActivityThread.access$800(ActivityThread.java:139)
+       at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1293)
+       at android.os.Handler.dispatchMessage(Handler.java:102)
+       at android.os.Looper.loop(Looper.java:149)
+       at android.app.ActivityThread.main(ActivityThread.java:5257)
+       at java.lang.reflect.Method.invokeNative(Method.java)
+       at java.lang.reflect.Method.invoke(Method.java:515)
+       at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:817)
+       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:633)
+       at dalvik.system.NativeStart.main(NativeStart.java)
+Caused by: android.support.v4.app.Fragment$InstantiationException: Unable to instantiate fragment com.fragments.MyFragment: make sure class name exists, is public, and has an empty constructor that is public
+       at android.support.v4.app.Fragment.instantiate(Fragment.java:413)
+       at android.support.v4.app.FragmentState.instantiate(Fragment.java:97)
+       at android.support.v4.app.FragmentManagerImpl.restoreAllState(FragmentManager.java:1801)
+       at android.support.v4.app.FragmentActivity.onCreate(FragmentActivity.java:213)
+       at android.support.v7.app.ActionBarActivity.onCreate(ActionBarActivity.java:97)
+       at com.buzzreel.MyActivity.onCreate(MyActivity.java:55)
+       at android.app.Activity.performCreate(Activity.java:5411)
+       at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087)
+       at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2270)
+       at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2396)
+       at android.app.ActivityThread.access$800(ActivityThread.java:139)
+       at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1293)
+       at android.os.Handler.dispatchMessage(Handler.java:102)
+       at android.os.Looper.loop(Looper.java:149)
+       at android.app.ActivityThread.main(ActivityThread.java:5257)
+       at java.lang.reflect.Method.invokeNative(Method.java)
+       at java.lang.reflect.Method.invoke(Method.java:515)
+       at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:817)
+       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:633)
+       at dalvik.system.NativeStart.main(NativeStart.java)
+Caused by: java.lang.InstantiationException: can't instantiate class com.fragments.MyFragment; no empty constructor
+       at java.lang.Class.newInstanceImpl(Class.java)
+       at java.lang.Class.newInstance(Class.java:1208)
+       at android.support.v4.app.Fragment.instantiate(Fragment.java:402)
+       at android.support.v4.app.FragmentState.instantiate(Fragment.java:97)
+       at android.support.v4.app.FragmentManagerImpl.restoreAllState(FragmentManager.java:1801)
+       at android.support.v4.app.FragmentActivity.onCreate(FragmentActivity.java:213)
+       at android.support.v7.app.ActionBarActivity.onCreate(ActionBarActivity.java:97)
+       at com.buzzreel.MyActivity.onCreate(MyActivity.java:55)
+       at android.app.Activity.performCreate(Activity.java:5411)
+       at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087)
+       at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2270)
+       at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2396)
+       at android.app.ActivityThread.access$800(ActivityThread.java:139)
+       at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1293)
+       at android.os.Handler.dispatchMessage(Handler.java:102)
+       at android.os.Looper.loop(Looper.java:149)
+       at android.app.ActivityThread.main(ActivityThread.java:5257)
+       at java.lang.reflect.Method.invokeNative(Method.java)
+       at java.lang.reflect.Method.invoke(Method.java:515)
+       at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:817)
+       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:633)
+       at dalvik.system.NativeStart.main(NativeStart.java)
+
+```
+
+But i have two constructors in my fragment class as follows:
+
+```
+public MyFragment(CustomObject custom) {
+        this.custom = custom;
+    }
+
+    public MyFragment() {
+
+    }
+
+```
+
+My pager adapter call:
+
+```
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import com.fragments.MyFragment
+
+public class MyPagerAdapter extends FragmentPagerAdapter {
+    private String tabtitles[] = new String[] { ""Info"" };
+    private CustomOjbect object;
+
+    public MyPagerAdapter(FragmentManager fm, CustomOjbect object) {
+        super(fm);
+        this.object = object;
+    }
+
+    @Override
+    public Fragment getItem(int index) {
+        switch (index) {
+        case 0:
+            return new MyFragment(object);
+
+        }
+
+        return null;
+    }
+
+    @Override
+    public int getCount() {
+        return 1;
+
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabtitles[position];
+    }
+
+}
+
+```
+
+Fragment Code [Code was big as other was relevant just keeping core code]
+
+```
+public class MyFragment extends Fragment implements  OnClickListener {
+
+    /**
+    Variable declaration for widgets and views comes here
+    **/
+
+    public MyFragment(CustomObject object) {
+        this.object = object;
+    }
+
+    public  MyFragment()
+    {
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_layout,
+                container, false);
+
+        initializeUIComponents();
+        /**
+        ...
+        ..
+        rest of code 
+
+        **/
+        return view;
+    }
+
+    private void initializeUIComponents() {
+        // ui views initialization
+    }
+
+}
+
+```
+
+In View pager i call constructor with arguements. Why is it failing?",2015/04/29,"[https://Stackoverflow.com/questions/29934164, https://Stackoverflow.com, https://Stackoverflow.com/users/3176004/]","The deadlock is at `Line 3`. At this line both the `Threads` are waiting continuously to acquire lock on resource `t`. The initial value of `t` is 0, which means it is already in a locked state, so for example if `Thread1` reaches first to `line 3` it waits till the value of `t` becomes 1 and similarly after some time `Thread2` will wait at the same line for `t` to become 1. In this way both the process will wait continuously for the resource creating a `deadlock.","Hint: You can avoid deadlocks by lock ordering. For example, all code must lock `s` before it locks `t`. The question demonstrates what can happen if that is not the case. You can ""make changes to the initial semaphore values"" to conform with lock ordering."
+28470591,"I am trying to upload images to DB using below code,
+
+MyJsp.jsp
+
+```
+<form action=""ImageUploadToDB"" method=""post"" enctype=""multipart/form-data"">
+    <div>
+      <img alt=""Image1"" id=""Image11"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files11"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image2"" id=""Image12"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files12"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image3"" id=""Image13"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br> 
+      <input type=""file"" id=""files13"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image4"" id=""Image14"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files14"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image5"" id=""Image15"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files15"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      </div>
+
+</form>
+
+```
+
+I am inserting all uploaded images from above form by using servlet like below,
+
+```
+final FileItemFactory factory = new DiskFileItemFactory();
+        final ServletFileUpload fileUpload = new ServletFileUpload(factory);
+        List items = null;
+
+         LinkedHashMap<String, InputStream> fileMap = new LinkedHashMap<String, InputStream>();
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            try {
+                items = fileUpload.parseRequest(request);
+            } catch (FileUploadException e) {
+
+                e.printStackTrace();
+            }
+            System.out.println(""selected images :""+items);
+            if (items != null) {                    
+                final Iterator iter = items.iterator();
+                while (iter.hasNext()) {
+
+                    final FileItem item = (FileItem) iter.next();
+
+                    if (item.isFormField()) {                       
+
+                    } else {                           
+                        fileMap.put(item.getName(), item.getInputStream());
+                        //System.out.println(""uploaded images  here:""+item.getName());
+
+                    }
+                }
+            }
+        }
+try {
+
+        try {
+
+        Class.forName(""com.mysql.jdbc.Driver"");
+        } catch (ClassNotFoundException e) {                
+            e.printStackTrace();
+        }       
+
+        con = DriverManager.getConnection(""jdbc:mysql://localhost:3306/raptor1_5"",""root"","""");
+
+        Set<String> keySet = fileMap.keySet();
+
+        for (String fileName : keySet) {            
+        String sql =""INSERT INTO contacts2 (images) values (?)"" ; 
+        PreparedStatement statement;
+
+            statement = con.prepareStatement(sql);
+            statement.setBlob(1, fileMap.get(fileName));
+
+            int row = statement.executeUpdate();
+
+            System.out.println(""inserted successfully:"");
+
+        }
+
+        }
+         catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(""errror is:""+e);
+        }  
+         finally{
+             try {
+                con.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+         }
+
+```
+
+If i uploading such as images1.jpg, images2.jpg, images3.jpg, images4.jpg, images5.jpg then my output is :
+
+```
+inserted successfully:
+inserted successfully:
+inserted successfully:
+inserted successfully:
+inserted successfully:
+
+```
+
+But if i uploading such as images1.jpg, images2.jpg, images1.jpg, images4.jpg, images2.jpg then my output is :
+
+```
+inserted successfully:
+inserted successfully:
+inserted successfully:
+
+```
+
+when i check my DB there is image1.jpg, image2.jpg, image4.jpg only.I have no idea why that same name of images not inserting to DB.
+
+Someone tell me where i am wrong?
+
+Updated :
+This is for Mr.Keval's answer
+
+```
+    fileMap.put((item.getName() + """" + new Date().getTime()), item.getInputStream());
+
+        int count2 =5;
+                for (int
+
+ k=0;k<5;k++) {
+                System.out.println(""for successfully:"");
+            String sql =""INSERT INTO tbl_MatchImgToImg (Class, Subject, CreatedBy, QimgName, Qimg, AimgName, Aimg) values (?, ?, ?, ?, ?, ?, ?)"" ; 
+            PreparedStatement statement;
+
+                statement = con.prepareStatement(sql);
+
+                 statement.setString(1, clas);      
+                 statement.setString(2, subject);
+                 statement.setString(3, uid); 
+                 System.out.println(""Qimg name is:""+listGet.get(k));
+                 statement.setString(4, listGet.get(k));    
+
+                 System.out.println(""Qimg is:""+fileMap.values().toArray()[k]);
+                 Object bb = fileMap.values().toArray()[k];
+                // System.out.println(""Qimg is:""+listGet2.get(listgetcount));
+
+                // System.out.println(""finallyyyy:""+fileMap.get(""files1""));
+                 statement.setBinaryStream(5, (InputStream) bb);
+
+                // System.out.println(""Aimg name is:""+listGet.get(count2));
+                 statement.setString(6, listGet.get(count2));    
+
+                 //System.out.println(""Aimg is:""+fileMap.values().toArray()[count2]);
+                 Object bb2 = fileMap.values().toArray()[count2];
+                 //System.out.println(""Qimg is:""+fileMap.get(""files2""));
+                 //String getval2 = listGet2.get(count2);
+                 statement.setBinaryStream(7, (InputStream) bb2);
+
+                int row = statement.executeUpdate();
+
+                System.out.println(""inserted successfully:"");
+
+                count2=count2+1;
+            }
+
+```
+
+If i upload same images then shows like 
+
+```
+for successfully:
+Qimg name is:image1.jpg
+Qimg is:java.io.FileInputStream@f747c0
+inserted successfully:
+for successfully:
+Qimg name is:image4.jpg
+Qimg is:java.io.FileInputStream@fd4f30
+inserted successfully:
+for successfully:
+Qimg name is:image5.jpg
+Qimg is:java.io.FileInputStream@1b654b9
+inserted successfully:
+for successfully:
+Qimg name is:image7.jpg
+Qimg is:java.io.FileInputStream@1303c07
+inserted successfully:
+for successfully:
+Qimg name is:image9.jpg
+Qimg is:java.io.FileInputStream@110b3f6
+
+java.lang.ArrayIndexOutOfBoundsException: 9
+
+```",2015/02/12,"[https://Stackoverflow.com/questions/28470591, https://Stackoverflow.com, https://Stackoverflow.com/users/3766129/]","Since you are using `LinkedHashMap` with the names of files as keys, when you add two files of the same name (two entries with the same key), the latter will replace the former. This is causing the entries with duplicate names to be replaced. Consider using an ArrayList of a class (that you create) containing the file name and the `InputStream` to store this data.
+
+Edit: my suggestion in code (untested)
+
+```
+final FileItemFactory factory = new DiskFileItemFactory();
+final ServletFileUpload fileUpload = new ServletFileUpload(factory);
+List items = null;
+
+ArrayList<FileWithStream> fileMap = new ArrayList<FileWithStream>();
+
+if (ServletFileUpload.isMultipartContent(request)) {
+
+    try {
+        items = fileUpload.parseRequest(request);
+    } catch (FileUploadException e) {
+
+        e.printStackTrace();
+    }
+    System.out.println(""selected images :""+items);
+    if (items != null) {                    
+        final Iterator iter = items.iterator();
+        while (iter.hasNext()) {
+
+            final FileItem item = (FileItem) iter.next();
+
+            if (item.isFormField()) {                       
+
+            } else {                           
+                fileMap.add(new FileWithStream(item.getName(), item.getInputStream()));
+                //System.out.println(""uploaded images  here:""+item.getName());
+
+            }
+        }
+    }
+}
+try {
+
+    try {
+
+    Class.forName(""com.mysql.jdbc.Driver"");
+    } catch (ClassNotFoundException e) {                
+        e.printStackTrace();
+    }       
+
+    con = DriverManager.getConnection(""jdbc:mysql://localhost:3306/raptor1_5"",""root"","""");
+
+    for (FileWithStream file : fileMap) {            
+    String sql =""INSERT INTO contacts2 (images) values (?)"" ; 
+    PreparedStatement statement;
+
+        statement = con.prepareStatement(sql);
+        statement.setBlob(1, file.getStream());
+
+        int row = statement.executeUpdate();
+
+        System.out.println(""inserted successfully:"");
+
+    }
+
+    }
+     catch (SQLException e) {
+        // TODO Auto-generated catch block
+        System.out.println(""errror is:""+e);
+    }  
+     finally{
+         try {
+            con.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+     }
+
+```
+
+with a class like:
+
+```
+public class FileWithStream {
+    private String name;
+    private InputStream stream;
+
+    public FileWithStream(String name, InputStream stream) {
+        this.name = name;
+        this.stream = stream;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public InputStream getStream() {
+        return stream;
+    }
+}
+
+```","Finally i got answer using below code,
+
+```
+Connection con1 =null;
+        Statement stmt=null;
+        int GetUniqueId=0;
+        System.out.println(""Entered successfully 1:"");
+
+        try
+        {
+            Class.forName(""com.mysql.jdbc.Driver"");
+            con1 = DriverManager.getConnection(""jdbc:mysql://localhost:3306/raptor1_5"",""root"","""");
+            String sql1 =""select contact_id from contacts order by contact_id desc limit 1"" ;                          
+            stmt = con1.createStatement();
+            ResultSet rst = stmt.executeQuery(sql1);
+            if(rst.next())
+            {
+
+                //String newone = rst.getString(""contact_id"");
+                GetUniqueId = Integer.parseInt(rst.getString(""AutoIncrementValue""));
+                System.out.println(""Ifffffffffffff""+GetUniqueId);
+
+            }
+            else
+            {
+                GetUniqueId = 0;
+                System.out.println(""elseeeeeeeeeeee""+GetUniqueId);
+
+            }
+
+        }
+
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+
+final FileItemFactory factory = new DiskFileItemFactory();
+        final ServletFileUpload fileUpload = new ServletFileUpload(factory);
+        List items = null;
+
+         LinkedHashMap<String, InputStream> fileMap = new LinkedHashMap<String, InputStream>();
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            try {
+                items = fileUpload.parseRequest(request);
+            } catch (FileUploadException e) {
+
+                e.printStackTrace();
+            }
+            System.out.println(""selected images :""+items);
+            if (items != null) {                    
+                final Iterator iter = items.iterator();
+                while (iter.hasNext()) {
+
+                    final FileItem item = (FileItem) iter.next();
+
+                    if (item.isFormField()) {                       
+
+                    } else {
+                    // item.getName() - gives file name
+                    GetUniqueId = GetUniqueId+1;
+
+                    String getfirst = item.getName();
+                    String [] get = getfirst.split(""\\."");
+                    System.out.println(""splited :""+get[0]);
+                    System.out.println(""splited :""+get[1]);
+
+                     getchange = get[0];
+                     getchange = getchange+""""+ GetUniqueId;
+
+                    String addjpg =getchange+"".""+get[1];
+                    System.out.println(""splited finally :""+addjpg);
+                     fileMap.put(addjpg, item.getInputStream());
+
+                    listGetImgName.add(addjpg);
+
+                }
+
+                }
+            }
+        }
+
+```
+
+Its working fine now. Thanks to Mr.Keval and Mr.colavitam"
+28470591,"I am trying to upload images to DB using below code,
+
+MyJsp.jsp
+
+```
+<form action=""ImageUploadToDB"" method=""post"" enctype=""multipart/form-data"">
+    <div>
+      <img alt=""Image1"" id=""Image11"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files11"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image2"" id=""Image12"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files12"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image3"" id=""Image13"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br> 
+      <input type=""file"" id=""files13"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image4"" id=""Image14"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files14"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image5"" id=""Image15"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files15"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      </div>
+
+</form>
+
+```
+
+I am inserting all uploaded images from above form by using servlet like below,
+
+```
+final FileItemFactory factory = new DiskFileItemFactory();
+        final ServletFileUpload fileUpload = new ServletFileUpload(factory);
+        List items = null;
+
+         LinkedHashMap<String, InputStream> fileMap = new LinkedHashMap<String, InputStream>();
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            try {
+                items = fileUpload.parseRequest(request);
+            } catch (FileUploadException e) {
+
+                e.printStackTrace();
+            }
+            System.out.println(""selected images :""+items);
+            if (items != null) {                    
+                final Iterator iter = items.iterator();
+                while (iter.hasNext()) {
+
+                    final FileItem item = (FileItem) iter.next();
+
+                    if (item.isFormField()) {                       
+
+                    } else {                           
+                        fileMap.put(item.getName(), item.getInputStream());
+                        //System.out.println(""uploaded images  here:""+item.getName());
+
+                    }
+                }
+            }
+        }
+try {
+
+        try {
+
+        Class.forName(""com.mysql.jdbc.Driver"");
+        } catch (ClassNotFoundException e) {                
+            e.printStackTrace();
+        }       
+
+        con = DriverManager.getConnection(""jdbc:mysql://localhost:3306/raptor1_5"",""root"","""");
+
+        Set<String> keySet = fileMap.keySet();
+
+        for (String fileName : keySet) {            
+        String sql =""INSERT INTO contacts2 (images) values (?)"" ; 
+        PreparedStatement statement;
+
+            statement = con.prepareStatement(sql);
+            statement.setBlob(1, fileMap.get(fileName));
+
+            int row = statement.executeUpdate();
+
+            System.out.println(""inserted successfully:"");
+
+        }
+
+        }
+         catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(""errror is:""+e);
+        }  
+         finally{
+             try {
+                con.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+         }
+
+```
+
+If i uploading such as images1.jpg, images2.jpg, images3.jpg, images4.jpg, images5.jpg then my output is :
+
+```
+inserted successfully:
+inserted successfully:
+inserted successfully:
+inserted successfully:
+inserted successfully:
+
+```
+
+But if i uploading such as images1.jpg, images2.jpg, images1.jpg, images4.jpg, images2.jpg then my output is :
+
+```
+inserted successfully:
+inserted successfully:
+inserted successfully:
+
+```
+
+when i check my DB there is image1.jpg, image2.jpg, image4.jpg only.I have no idea why that same name of images not inserting to DB.
+
+Someone tell me where i am wrong?
+
+Updated :
+This is for Mr.Keval's answer
+
+```
+    fileMap.put((item.getName() + """" + new Date().getTime()), item.getInputStream());
+
+        int count2 =5;
+                for (int
+
+ k=0;k<5;k++) {
+                System.out.println(""for successfully:"");
+            String sql =""INSERT INTO tbl_MatchImgToImg (Class, Subject, CreatedBy, QimgName, Qimg, AimgName, Aimg) values (?, ?, ?, ?, ?, ?, ?)"" ; 
+            PreparedStatement statement;
+
+                statement = con.prepareStatement(sql);
+
+                 statement.setString(1, clas);      
+                 statement.setString(2, subject);
+                 statement.setString(3, uid); 
+                 System.out.println(""Qimg name is:""+listGet.get(k));
+                 statement.setString(4, listGet.get(k));    
+
+                 System.out.println(""Qimg is:""+fileMap.values().toArray()[k]);
+                 Object bb = fileMap.values().toArray()[k];
+                // System.out.println(""Qimg is:""+listGet2.get(listgetcount));
+
+                // System.out.println(""finallyyyy:""+fileMap.get(""files1""));
+                 statement.setBinaryStream(5, (InputStream) bb);
+
+                // System.out.println(""Aimg name is:""+listGet.get(count2));
+                 statement.setString(6, listGet.get(count2));    
+
+                 //System.out.println(""Aimg is:""+fileMap.values().toArray()[count2]);
+                 Object bb2 = fileMap.values().toArray()[count2];
+                 //System.out.println(""Qimg is:""+fileMap.get(""files2""));
+                 //String getval2 = listGet2.get(count2);
+                 statement.setBinaryStream(7, (InputStream) bb2);
+
+                int row = statement.executeUpdate();
+
+                System.out.println(""inserted successfully:"");
+
+                count2=count2+1;
+            }
+
+```
+
+If i upload same images then shows like 
+
+```
+for successfully:
+Qimg name is:image1.jpg
+Qimg is:java.io.FileInputStream@f747c0
+inserted successfully:
+for successfully:
+Qimg name is:image4.jpg
+Qimg is:java.io.FileInputStream@fd4f30
+inserted successfully:
+for successfully:
+Qimg name is:image5.jpg
+Qimg is:java.io.FileInputStream@1b654b9
+inserted successfully:
+for successfully:
+Qimg name is:image7.jpg
+Qimg is:java.io.FileInputStream@1303c07
+inserted successfully:
+for successfully:
+Qimg name is:image9.jpg
+Qimg is:java.io.FileInputStream@110b3f6
+
+java.lang.ArrayIndexOutOfBoundsException: 9
+
+```",2015/02/12,"[https://Stackoverflow.com/questions/28470591, https://Stackoverflow.com, https://Stackoverflow.com/users/3766129/]","While putting values in map
+
+> 
+> ...
+> 
+> 
+> fileMap.put(item.getName(), item.getInputStream());
+> 
+> 
+> ....
+> 
+> 
+> 
+
+You have kept ""File Name"" as key and map keep only last added value, in case of duplicate key.
+
+So, I suggest you to replace your file Name with a unique key.","Finally i got answer using below code,
+
+```
+Connection con1 =null;
+        Statement stmt=null;
+        int GetUniqueId=0;
+        System.out.println(""Entered successfully 1:"");
+
+        try
+        {
+            Class.forName(""com.mysql.jdbc.Driver"");
+            con1 = DriverManager.getConnection(""jdbc:mysql://localhost:3306/raptor1_5"",""root"","""");
+            String sql1 =""select contact_id from contacts order by contact_id desc limit 1"" ;                          
+            stmt = con1.createStatement();
+            ResultSet rst = stmt.executeQuery(sql1);
+            if(rst.next())
+            {
+
+                //String newone = rst.getString(""contact_id"");
+                GetUniqueId = Integer.parseInt(rst.getString(""AutoIncrementValue""));
+                System.out.println(""Ifffffffffffff""+GetUniqueId);
+
+            }
+            else
+            {
+                GetUniqueId = 0;
+                System.out.println(""elseeeeeeeeeeee""+GetUniqueId);
+
+            }
+
+        }
+
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+
+final FileItemFactory factory = new DiskFileItemFactory();
+        final ServletFileUpload fileUpload = new ServletFileUpload(factory);
+        List items = null;
+
+         LinkedHashMap<String, InputStream> fileMap = new LinkedHashMap<String, InputStream>();
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            try {
+                items = fileUpload.parseRequest(request);
+            } catch (FileUploadException e) {
+
+                e.printStackTrace();
+            }
+            System.out.println(""selected images :""+items);
+            if (items != null) {                    
+                final Iterator iter = items.iterator();
+                while (iter.hasNext()) {
+
+                    final FileItem item = (FileItem) iter.next();
+
+                    if (item.isFormField()) {                       
+
+                    } else {
+                    // item.getName() - gives file name
+                    GetUniqueId = GetUniqueId+1;
+
+                    String getfirst = item.getName();
+                    String [] get = getfirst.split(""\\."");
+                    System.out.println(""splited :""+get[0]);
+                    System.out.println(""splited :""+get[1]);
+
+                     getchange = get[0];
+                     getchange = getchange+""""+ GetUniqueId;
+
+                    String addjpg =getchange+"".""+get[1];
+                    System.out.println(""splited finally :""+addjpg);
+                     fileMap.put(addjpg, item.getInputStream());
+
+                    listGetImgName.add(addjpg);
+
+                }
+
+                }
+            }
+        }
+
+```
+
+Its working fine now. Thanks to Mr.Keval and Mr.colavitam"
+28470591,"I am trying to upload images to DB using below code,
+
+MyJsp.jsp
+
+```
+<form action=""ImageUploadToDB"" method=""post"" enctype=""multipart/form-data"">
+    <div>
+      <img alt=""Image1"" id=""Image11"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files11"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image2"" id=""Image12"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files12"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image3"" id=""Image13"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br> 
+      <input type=""file"" id=""files13"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image4"" id=""Image14"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files14"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      <img alt=""Image5"" id=""Image15"" src="""" width=""130px"" height=""90px"" class=""imgtotxt""><br><br>
+      <input type=""file"" id=""files15"" class=""fileUploadimgtotxt"" name=""files3[]"" style="""" value=""Select Image""> 
+
+      </div>
+
+</form>
+
+```
+
+I am inserting all uploaded images from above form by using servlet like below,
+
+```
+final FileItemFactory factory = new DiskFileItemFactory();
+        final ServletFileUpload fileUpload = new ServletFileUpload(factory);
+        List items = null;
+
+         LinkedHashMap<String, InputStream> fileMap = new LinkedHashMap<String, InputStream>();
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            try {
+                items = fileUpload.parseRequest(request);
+            } catch (FileUploadException e) {
+
+                e.printStackTrace();
+            }
+            System.out.println(""selected images :""+items);
+            if (items != null) {                    
+                final Iterator iter = items.iterator();
+                while (iter.hasNext()) {
+
+                    final FileItem item = (FileItem) iter.next();
+
+                    if (item.isFormField()) {                       
+
+                    } else {                           
+                        fileMap.put(item.getName(), item.getInputStream());
+                        //System.out.println(""uploaded images  here:""+item.getName());
+
+                    }
+                }
+            }
+        }
+try {
+
+        try {
+
+        Class.forName(""com.mysql.jdbc.Driver"");
+        } catch (ClassNotFoundException e) {                
+            e.printStackTrace();
+        }       
+
+        con = DriverManager.getConnection(""jdbc:mysql://localhost:3306/raptor1_5"",""root"","""");
+
+        Set<String> keySet = fileMap.keySet();
+
+        for (String fileName : keySet) {            
+        String sql =""INSERT INTO contacts2 (images) values (?)"" ; 
+        PreparedStatement statement;
+
+            statement = con.prepareStatement(sql);
+            statement.setBlob(1, fileMap.get(fileName));
+
+            int row = statement.executeUpdate();
+
+            System.out.println(""inserted successfully:"");
+
+        }
+
+        }
+         catch (SQLException e) {
+            // TODO Auto-generated catch block
+            System.out.println(""errror is:""+e);
+        }  
+         finally{
+             try {
+                con.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+         }
+
+```
+
+If i uploading such as images1.jpg, images2.jpg, images3.jpg, images4.jpg, images5.jpg then my output is :
+
+```
+inserted successfully:
+inserted successfully:
+inserted successfully:
+inserted successfully:
+inserted successfully:
+
+```
+
+But if i uploading such as images1.jpg, images2.jpg, images1.jpg, images4.jpg, images2.jpg then my output is :
+
+```
+inserted successfully:
+inserted successfully:
+inserted successfully:
+
+```
+
+when i check my DB there is image1.jpg, image2.jpg, image4.jpg only.I have no idea why that same name of images not inserting to DB.
+
+Someone tell me where i am wrong?
+
+Updated :
+This is for Mr.Keval's answer
+
+```
+    fileMap.put((item.getName() + """" + new Date().getTime()), item.getInputStream());
+
+        int count2 =5;
+                for (int
+
+ k=0;k<5;k++) {
+                System.out.println(""for successfully:"");
+            String sql =""INSERT INTO tbl_MatchImgToImg (Class, Subject, CreatedBy, QimgName, Qimg, AimgName, Aimg) values (?, ?, ?, ?, ?, ?, ?)"" ; 
+            PreparedStatement statement;
+
+                statement = con.prepareStatement(sql);
+
+                 statement.setString(1, clas);      
+                 statement.setString(2, subject);
+                 statement.setString(3, uid); 
+                 System.out.println(""Qimg name is:""+listGet.get(k));
+                 statement.setString(4, listGet.get(k));    
+
+                 System.out.println(""Qimg is:""+fileMap.values().toArray()[k]);
+                 Object bb = fileMap.values().toArray()[k];
+                // System.out.println(""Qimg is:""+listGet2.get(listgetcount));
+
+                // System.out.println(""finallyyyy:""+fileMap.get(""files1""));
+                 statement.setBinaryStream(5, (InputStream) bb);
+
+                // System.out.println(""Aimg name is:""+listGet.get(count2));
+                 statement.setString(6, listGet.get(count2));    
+
+                 //System.out.println(""Aimg is:""+fileMap.values().toArray()[count2]);
+                 Object bb2 = fileMap.values().toArray()[count2];
+                 //System.out.println(""Qimg is:""+fileMap.get(""files2""));
+                 //String getval2 = listGet2.get(count2);
+                 statement.setBinaryStream(7, (InputStream) bb2);
+
+                int row = statement.executeUpdate();
+
+                System.out.println(""inserted successfully:"");
+
+                count2=count2+1;
+            }
+
+```
+
+If i upload same images then shows like 
+
+```
+for successfully:
+Qimg name is:image1.jpg
+Qimg is:java.io.FileInputStream@f747c0
+inserted successfully:
+for successfully:
+Qimg name is:image4.jpg
+Qimg is:java.io.FileInputStream@fd4f30
+inserted successfully:
+for successfully:
+Qimg name is:image5.jpg
+Qimg is:java.io.FileInputStream@1b654b9
+inserted successfully:
+for successfully:
+Qimg name is:image7.jpg
+Qimg is:java.io.FileInputStream@1303c07
+inserted successfully:
+for successfully:
+Qimg name is:image9.jpg
+Qimg is:java.io.FileInputStream@110b3f6
+
+java.lang.ArrayIndexOutOfBoundsException: 9
+
+```",2015/02/12,"[https://Stackoverflow.com/questions/28470591, https://Stackoverflow.com, https://Stackoverflow.com/users/3766129/]","You need uniqe image name for each image other wise image with same name will overwrite value of old image in your map as keys are unique in map
+
+```
+ fileMap.put(item.getName(), item.getInputStream());
+
+```
+
+one solution is you can append current time with your file name to make them unique 
+
+```
+  fileMap.put((item.getName() + """" + new Date().getTime()), item.getInputStream());
+
+```","Finally i got answer using below code,
+
+```
+Connection con1 =null;
+        Statement stmt=null;
+        int GetUniqueId=0;
+        System.out.println(""Entered successfully 1:"");
+
+        try
+        {
+            Class.forName(""com.mysql.jdbc.Driver"");
+            con1 = DriverManager.getConnection(""jdbc:mysql://localhost:3306/raptor1_5"",""root"","""");
+            String sql1 =""select contact_id from contacts order by contact_id desc limit 1"" ;                          
+            stmt = con1.createStatement();
+            ResultSet rst = stmt.executeQuery(sql1);
+            if(rst.next())
+            {
+
+                //String newone = rst.getString(""contact_id"");
+                GetUniqueId = Integer.parseInt(rst.getString(""AutoIncrementValue""));
+                System.out.println(""Ifffffffffffff""+GetUniqueId);
+
+            }
+            else
+            {
+                GetUniqueId = 0;
+                System.out.println(""elseeeeeeeeeeee""+GetUniqueId);
+
+            }
+
+        }
+
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
+
+final FileItemFactory factory = new DiskFileItemFactory();
+        final ServletFileUpload fileUpload = new ServletFileUpload(factory);
+        List items = null;
+
+         LinkedHashMap<String, InputStream> fileMap = new LinkedHashMap<String, InputStream>();
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            try {
+                items = fileUpload.parseRequest(request);
+            } catch (FileUploadException e) {
+
+                e.printStackTrace();
+            }
+            System.out.println(""selected images :""+items);
+            if (items != null) {                    
+                final Iterator iter = items.iterator();
+                while (iter.hasNext()) {
+
+                    final FileItem item = (FileItem) iter.next();
+
+                    if (item.isFormField()) {                       
+
+                    } else {
+                    // item.getName() - gives file name
+                    GetUniqueId = GetUniqueId+1;
+
+                    String getfirst = item.getName();
+                    String [] get = getfirst.split(""\\."");
+                    System.out.println(""splited :""+get[0]);
+                    System.out.println(""splited :""+get[1]);
+
+                     getchange = get[0];
+                     getchange = getchange+""""+ GetUniqueId;
+
+                    String addjpg =getchange+"".""+get[1];
+                    System.out.println(""splited finally :""+addjpg);
+                     fileMap.put(addjpg, item.getInputStream());
+
+                    listGetImgName.add(addjpg);
+
+                }
+
+                }
+            }
+        }
+
+```
+
+Its working fine now. Thanks to Mr.Keval and Mr.colavitam"
+30961582,"I am doing a project for Data Structures. I need to have the user input Strings into a doubly linked list using bufferedReader, where -1 terminates the stream and displays the list. Here is what I have so far. Every input I enter is throwing an exception and closing the Stream. Where am I going wrong?
+
+```
+public class Main {
+
+/**
+ * @param args the command line arguments
+ * @throws java.io.IOException
+ */
+public static void main(String[] args) throws IOException {
+    int count;
+    String inputString;
+    InputStreamReader reader = new InputStreamReader(System.in);
+    BufferedReader in = new BufferedReader(reader);
+    DoublyLinkedList list = new DoublyLinkedList();//does this go in the loop?
+
+    while ((inputString = in.readLine()) != null) 
+    {
+        System.out.println(""Enter a String, then press enter."");
+
+        if (inputString.equals(-1) {
+          displayList();
+        } else {
+          list.insertFirst(inputString);
+        } 
+
+    count++
+    in.close();
+}
+   /**
+ *
+ */
+public static void displayList() 
+    {
+    Node first = null;
+    Node node = first;
+
+        while(node != null){
+
+            node.displayNode();
+
+            System.out.println(""Next Link: "" + node.next);
+
+            node = node.next;
+
+            System.out.println();
+
+        }
+
+    }  
+
+}
+
+```
+
+Node Class:
+
+```
+public class Node {
+
+public String dData; // data item
+public Node next; // next node in list
+public Node previous; // previous node in list
+
+/**
+ *
+ * @param d
+ */
+public Node(String d) // constructor
+    { 
+dData = d; 
+    }
+
+public void displayNode() // display this link
+    {
+System.out.print(dData + "" "");
+    } 
+}// end class Node
+
+```
+
+Doubly-linked-list Class:
+
+```
+    public class DoublyLinkedList {
+
+    public Node first; // ref to first item
+
+    /**
+     *
+     */
+    public Node last; // ref to last item
+
+    public DoublyLinkedList() // constructor
+    {
+        first = null; // no items on list yet
+        last = null;
+    }
+
+    public boolean isEmpty() // true if no links
+    {
+        return first == null;
+    }
+
+    public void insertFirst(String dd) // insert at front of list
+    {
+        Node newNode = new Node(dd); // make new link
+
+        if (isEmpty()) // if empty list,
+        {
+            last = newNode; // newLink <-- last
+        } else {
+            first.previous = newNode; // newLink <-- old first
+        }
+        newNode.next = first; // newLink --> old first
+        first = newNode; // first --> newLink
+    }
+
+    public void insertLast(String dd) // insert at end of list
+    {
+        Node newNode = new Node(dd); // make new link
+        if (isEmpty()) // if empty list,
+        {
+            first = newNode; // first --> newLink
+        } else {
+            last.next = newNode; // old last --> newLink
+            newNode.previous = last; // old last <-- newLink
+        }
+        last = newNode; // newLink <-- last
+    }
+
+    public Node deleteFirst() // delete first link
+    { // (assumes non-empty list)
+        Node temp = first;
+        if (first.next == null) // if only one item
+        {
+            last = null; // null <-- last
+        } else {
+            first.next.previous = null; // null <-- old next
+        }
+        first = first.next; // first --> old next
+        return temp;
+    }
+
+    public Node deleteLast() // delete last link
+    { // (assumes non-empty list)
+        Node temp = last;
+        if (first.next == null) // if only one item
+        {
+            first = null; // first --> null
+        } else {
+            last.previous.next = null; // old previous --> null
+        }
+        last = last.previous; // old previous <-- last
+        return temp;
+    }
+
+// insert dd just after key
+
+    public boolean insertAfter(String key, String dd) { // (assumes non-empty list)
+        Node current = first; // start at beginning
+        while (!current.dData.equals(key)) // until match is found,
+        {
+            current = current.next; // move to next link
+            if (current == null) {
+                return false; // didn’t find it
+            }
+        }
+        Node newNode = new Node(dd); // make new link
+
+        if (current == last) // if last link,
+        {
+            newNode.next = null; // newLink --> null
+            last = newNode; // newLink <-- last
+        } else // not last link,
+        {
+            newNode.next = current.next; // newLink --> old next
+// newLink <-- old next
+            current.next.previous = newNode;
+        }
+        newNode.previous = current; // old current <-- newLink
+        current.next = newNode; // old current --> newLink
+        return true; // found it, did insertion
+    }
+
+    /**
+     *
+     * @param key
+     * @return
+     */
+    public Node deleteKey(String key) // delete item w/ given key
+    { // (assumes non-empty list)
+        Node current = first; // start at beginning
+
+        while (!current.dData.equals(key)) // until match is found,
+        {
+            current = current.next; // move to next link
+            if (current == null) {
+                return null; // didn’t find it
+            }
+        }
+        if (current == first) // found it; first item?
+        {
+            first = current.next; // first --> old next
+        } else // not first
+        // old previous --> old next
+        {
+            current.previous.next = current.next;
+        }
+
+        if (current == last) // last item?
+        {
+            last = current.previous; // old previous <-- last
+        } else // not last
+        // old previous <-- old next
+        {
+            current.next.previous = current.previous;
+        }
+        return current; // return value
+    }
+
+    public void displayForward() {
+        System.out.print(""List(first-- > last): "");
+        Node current = first; // start at beginning
+        while (current != null) // until end of list,
+        {
+            current.displayNode(); // display data
+            current = current.next; // move to next link
+        }
+        System.out.println("""");
+}
+
+public void displayBackward() {
+        System.out.print(""List(last-- > first): "");
+        Node current = last; // start at end
+        while (current != null) // until start of list,
+        {
+            current.displayNode(); // display data
+            current = current.previous; // move to previous link
+
+}
+        System.out.println("""");
+}
+
+} // end class DoublyLinkedList
+
+```",2015/06/21,"[https://Stackoverflow.com/questions/30961582, https://Stackoverflow.com, https://Stackoverflow.com/users/2959353/]","Here you go, you had a bunch of mistakes,
+
+1. Missing out a brace.
+2. Closing the stream inside the loop. (How are you going to read input in the next iteration?)
+3. `displayList` did not take any arguments (How will print the `LinkedList` if it doesn’t have any references to it?
+4. Last but not the least, you didn’t even call displayList.
+
+The `Node` and `LinkedList` classes are fine. I also made some other minor changes.
+
+```
+import java.io.*;
+
+class Main {
+
+/**
+ * @param args the command line arguments
+ * @throws java.io.IOException
+ */
+
+public static void main(String[] args) throws IOException 
+{
+    int count = 0;
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    DoublyLinkedList list = new DoublyLinkedList();//does this go in the loop?
+    System.out.println(""Enter a String, then press enter."");
+    String inputString = br.readLine();
+    while ((inputString != null) )
+    {
+        if (inputString.equals(""-1"")) 
+        {
+          break;
+        } 
+        else 
+        {
+          list.insertFirst(inputString);
+        } 
+       inputString =br.readLine();
+       count++;
+  }
+
+  displayList(list);
+  br.close();
+}
+
+public static void displayList(DoublyLinkedList d) 
+    {
+
+    Node node = d.first;
+
+        while(node != null)
+        {
+
+            node.displayNode();
+
+            //System.out.println(""Next Link: "" + node.next);
+
+            node = node.next;
+
+            System.out.println();
+
+        }
+
+    }  
+
+}
+
+```","Your while should look like this:
+
+```
+System.out.println(""Enter a String, then press enter."");
+while (!(inputString = in.readLine()).equals(""-1"")) {
+    if (in.readLine().equals("""")) { // filter empty lines, user probably hit enter twice
+        continue;
+    }
+    // add inputString to the list
+    System.out.println(""Enter a String, then press enter."");
+}
+// print list
+
+```"
+30961582,"I am doing a project for Data Structures. I need to have the user input Strings into a doubly linked list using bufferedReader, where -1 terminates the stream and displays the list. Here is what I have so far. Every input I enter is throwing an exception and closing the Stream. Where am I going wrong?
+
+```
+public class Main {
+
+/**
+ * @param args the command line arguments
+ * @throws java.io.IOException
+ */
+public static void main(String[] args) throws IOException {
+    int count;
+    String inputString;
+    InputStreamReader reader = new InputStreamReader(System.in);
+    BufferedReader in = new BufferedReader(reader);
+    DoublyLinkedList list = new DoublyLinkedList();//does this go in the loop?
+
+    while ((inputString = in.readLine()) != null) 
+    {
+        System.out.println(""Enter a String, then press enter."");
+
+        if (inputString.equals(-1) {
+          displayList();
+        } else {
+          list.insertFirst(inputString);
+        } 
+
+    count++
+    in.close();
+}
+   /**
+ *
+ */
+public static void displayList() 
+    {
+    Node first = null;
+    Node node = first;
+
+        while(node != null){
+
+            node.displayNode();
+
+            System.out.println(""Next Link: "" + node.next);
+
+            node = node.next;
+
+            System.out.println();
+
+        }
+
+    }  
+
+}
+
+```
+
+Node Class:
+
+```
+public class Node {
+
+public String dData; // data item
+public Node next; // next node in list
+public Node previous; // previous node in list
+
+/**
+ *
+ * @param d
+ */
+public Node(String d) // constructor
+    { 
+dData = d; 
+    }
+
+public void displayNode() // display this link
+    {
+System.out.print(dData + "" "");
+    } 
+}// end class Node
+
+```
+
+Doubly-linked-list Class:
+
+```
+    public class DoublyLinkedList {
+
+    public Node first; // ref to first item
+
+    /**
+     *
+     */
+    public Node last; // ref to last item
+
+    public DoublyLinkedList() // constructor
+    {
+        first = null; // no items on list yet
+        last = null;
+    }
+
+    public boolean isEmpty() // true if no links
+    {
+        return first == null;
+    }
+
+    public void insertFirst(String dd) // insert at front of list
+    {
+        Node newNode = new Node(dd); // make new link
+
+        if (isEmpty()) // if empty list,
+        {
+            last = newNode; // newLink <-- last
+        } else {
+            first.previous = newNode; // newLink <-- old first
+        }
+        newNode.next = first; // newLink --> old first
+        first = newNode; // first --> newLink
+    }
+
+    public void insertLast(String dd) // insert at end of list
+    {
+        Node newNode = new Node(dd); // make new link
+        if (isEmpty()) // if empty list,
+        {
+            first = newNode; // first --> newLink
+        } else {
+            last.next = newNode; // old last --> newLink
+            newNode.previous = last; // old last <-- newLink
+        }
+        last = newNode; // newLink <-- last
+    }
+
+    public Node deleteFirst() // delete first link
+    { // (assumes non-empty list)
+        Node temp = first;
+        if (first.next == null) // if only one item
+        {
+            last = null; // null <-- last
+        } else {
+            first.next.previous = null; // null <-- old next
+        }
+        first = first.next; // first --> old next
+        return temp;
+    }
+
+    public Node deleteLast() // delete last link
+    { // (assumes non-empty list)
+        Node temp = last;
+        if (first.next == null) // if only one item
+        {
+            first = null; // first --> null
+        } else {
+            last.previous.next = null; // old previous --> null
+        }
+        last = last.previous; // old previous <-- last
+        return temp;
+    }
+
+// insert dd just after key
+
+    public boolean insertAfter(String key, String dd) { // (assumes non-empty list)
+        Node current = first; // start at beginning
+        while (!current.dData.equals(key)) // until match is found,
+        {
+            current = current.next; // move to next link
+            if (current == null) {
+                return false; // didn’t find it
+            }
+        }
+        Node newNode = new Node(dd); // make new link
+
+        if (current == last) // if last link,
+        {
+            newNode.next = null; // newLink --> null
+            last = newNode; // newLink <-- last
+        } else // not last link,
+        {
+            newNode.next = current.next; // newLink --> old next
+// newLink <-- old next
+            current.next.previous = newNode;
+        }
+        newNode.previous = current; // old current <-- newLink
+        current.next = newNode; // old current --> newLink
+        return true; // found it, did insertion
+    }
+
+    /**
+     *
+     * @param key
+     * @return
+     */
+    public Node deleteKey(String key) // delete item w/ given key
+    { // (assumes non-empty list)
+        Node current = first; // start at beginning
+
+        while (!current.dData.equals(key)) // until match is found,
+        {
+            current = current.next; // move to next link
+            if (current == null) {
+                return null; // didn’t find it
+            }
+        }
+        if (current == first) // found it; first item?
+        {
+            first = current.next; // first --> old next
+        } else // not first
+        // old previous --> old next
+        {
+            current.previous.next = current.next;
+        }
+
+        if (current == last) // last item?
+        {
+            last = current.previous; // old previous <-- last
+        } else // not last
+        // old previous <-- old next
+        {
+            current.next.previous = current.previous;
+        }
+        return current; // return value
+    }
+
+    public void displayForward() {
+        System.out.print(""List(first-- > last): "");
+        Node current = first; // start at beginning
+        while (current != null) // until end of list,
+        {
+            current.displayNode(); // display data
+            current = current.next; // move to next link
+        }
+        System.out.println("""");
+}
+
+public void displayBackward() {
+        System.out.print(""List(last-- > first): "");
+        Node current = last; // start at end
+        while (current != null) // until start of list,
+        {
+            current.displayNode(); // display data
+            current = current.previous; // move to previous link
+
+}
+        System.out.println("""");
+}
+
+} // end class DoublyLinkedList
+
+```",2015/06/21,"[https://Stackoverflow.com/questions/30961582, https://Stackoverflow.com, https://Stackoverflow.com/users/2959353/]","Here you go, you had a bunch of mistakes,
+
+1. Missing out a brace.
+2. Closing the stream inside the loop. (How are you going to read input in the next iteration?)
+3. `displayList` did not take any arguments (How will print the `LinkedList` if it doesn’t have any references to it?
+4. Last but not the least, you didn’t even call displayList.
+
+The `Node` and `LinkedList` classes are fine. I also made some other minor changes.
+
+```
+import java.io.*;
+
+class Main {
+
+/**
+ * @param args the command line arguments
+ * @throws java.io.IOException
+ */
+
+public static void main(String[] args) throws IOException 
+{
+    int count = 0;
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    DoublyLinkedList list = new DoublyLinkedList();//does this go in the loop?
+    System.out.println(""Enter a String, then press enter."");
+    String inputString = br.readLine();
+    while ((inputString != null) )
+    {
+        if (inputString.equals(""-1"")) 
+        {
+          break;
+        } 
+        else 
+        {
+          list.insertFirst(inputString);
+        } 
+       inputString =br.readLine();
+       count++;
+  }
+
+  displayList(list);
+  br.close();
+}
+
+public static void displayList(DoublyLinkedList d) 
+    {
+
+    Node node = d.first;
+
+        while(node != null)
+        {
+
+            node.displayNode();
+
+            //System.out.println(""Next Link: "" + node.next);
+
+            node = node.next;
+
+            System.out.println();
+
+        }
+
+    }  
+
+}
+
+```","You need to make 2 changes: 
+
+1. Change: 
+
+```
+inputString.equals(-1)  // A String cannot be equal to an integer.
+
+```
+
+to 
+
+```
+inputString.equals(""-1"")    
+
+```
+2. To break out of the loop if user enters `-1`, add a `break;` statement after `displayList()`.
+
+### Then you asked
+
+```
+ DoublyLinkedList list = new DoublyLinkedList();//does this go in the loop?  
+
+```
+
+### Answer:
+
+No. It doesn't enter a loop. Why do you think it does? It just calls the constructor of `class DoublyLinkedList` whici initializes `first` and `last` equal to `null`"
+49326164,"I am trying to work with jupyter notebook, but when I open a file I receive the following error: 
+
+The kernel has died, and the automatic restart has failed. It is possible the kernel cannot be restarted. If you are not able to restart the kernel, you will still be able to save the notebook, but running code will no longer work until the notebook is reopened.
+
+In the CMD I see the following:
+
+```
+(base) C:\Users\Dan Eran>jupyter notebook
+[W 19:05:33.006 NotebookApp] Error loading server extension jupyterlab
+    Traceback (most recent call last):
+      File ""C:\Users\Dan Eran\AppData\Roaming\Python\Python36\site-packages\notebook\notebookapp.py"", line 1451, in init_server_extensions
+        mod = importlib.import_module(modulename)
+      File ""C:\Anaconda3\lib\importlib\__init__.py"", line 126, in import_module
+        return _bootstrap._gcd_import(name[level:], package, level)
+      File ""<frozen importlib._bootstrap>"", line 994, in _gcd_import
+      File ""<frozen importlib._bootstrap>"", line 971, in _find_and_load
+      File ""<frozen importlib._bootstrap>"", line 953, in _find_and_load_unlocked
+    ModuleNotFoundError: No module named 'jupyterlab'
+[I 19:05:33.122 NotebookApp] Serving notebooks from local directory: C:\Users\Dan Eran
+[I 19:05:33.122 NotebookApp] 0 active kernels
+[I 19:05:33.122 NotebookApp] The Jupyter Notebook is running at:
+[I 19:05:33.122 NotebookApp] http://localhost:8888/?token=99a355c23c6617857e387f53d0af607ae26b89c20598336e
+[I 19:05:33.122 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 19:05:33.122 NotebookApp]
+
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=99a355c23c6617857e387f53d0af607ae26b89c20598336e
+[I 19:05:33.247 NotebookApp] Accepting one-time-token-authenticated connection from ::1
+[I 19:05:42.699 NotebookApp] Creating new notebook in
+[I 19:05:43.563 NotebookApp] Kernel started: 1433cbbf-f4b9-4dd3-be19-e91d7ee3d82f
+Traceback (most recent call last):
+  File ""C:\Anaconda3\lib\runpy.py"", line 193, in _run_module_as_main
+    ""__main__"", mod_spec)
+  File ""C:\Anaconda3\lib\runpy.py"", line 85, in _run_code
+    exec(code, run_globals)
+  File ""C:\Anaconda3\lib\site-packages\ipykernel_launcher.py"", line 15, in <module>
+    from ipykernel import kernelapp as app
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\__init__.py"", line 2, in <module>
+    from .connect import *
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\connect.py"", line 13, in <module>
+    from IPython.core.profiledir import ProfileDir
+ModuleNotFoundError: No module named 'IPython'
+[I 19:05:46.555 NotebookApp] KernelRestarter: restarting kernel (1/5), new random ports
+Traceback (most recent call last):
+  File ""C:\Anaconda3\lib\runpy.py"", line 193, in _run_module_as_main
+    ""__main__"", mod_spec)
+  File ""C:\Anaconda3\lib\runpy.py"", line 85, in _run_code
+    exec(code, run_globals)
+  File ""C:\Anaconda3\lib\site-packages\ipykernel_launcher.py"", line 15, in <module>
+    from ipykernel import kernelapp as app
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\__init__.py"", line 2, in <module>
+    from .connect import *
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\connect.py"", line 13, in <module>
+    from IPython.core.profiledir import ProfileDir
+ModuleNotFoundError: No module named 'IPython'
+[I 19:05:49.591 NotebookApp] KernelRestarter: restarting kernel (2/5), new random ports
+Traceback (most recent call last):
+  File ""C:\Anaconda3\lib\runpy.py"", line 193, in _run_module_as_main
+    ""__main__"", mod_spec)
+  File ""C:\Anaconda3\lib\runpy.py"", line 85, in _run_code
+    exec(code, run_globals)
+  File ""C:\Anaconda3\lib\site-packages\ipykernel_launcher.py"", line 15, in <module>
+    from ipykernel import kernelapp as app
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\__init__.py"", line 2, in <module>
+    from .connect import *
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\connect.py"", line 13, in <module>
+    from IPython.core.profiledir import ProfileDir
+ModuleNotFoundError: No module named 'IPython'
+[I 19:05:52.620 NotebookApp] KernelRestarter: restarting kernel (3/5), new random ports
+Traceback (most recent call last):
+  File ""C:\Anaconda3\lib\runpy.py"", line 193, in _run_module_as_main
+    ""__main__"", mod_spec)
+  File ""C:\Anaconda3\lib\runpy.py"", line 85, in _run_code
+    exec(code, run_globals)
+  File ""C:\Anaconda3\lib\site-packages\ipykernel_launcher.py"", line 15, in <module>
+    from ipykernel import kernelapp as app
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\__init__.py"", line 2, in <module>
+    from .connect import *
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\connect.py"", line 13, in <module>
+    from IPython.core.profiledir import ProfileDir
+ModuleNotFoundError: No module named 'IPython'
+[W 19:05:53.595 NotebookApp] Timeout waiting for kernel_info reply from 1433cbbf-f4b9-4dd3-be19-e91d7ee3d82f
+[I 19:05:55.632 NotebookApp] KernelRestarter: restarting kernel (4/5), new random ports
+WARNING:root:kernel 1433cbbf-f4b9-4dd3-be19-e91d7ee3d82f restarted
+Traceback (most recent call last):
+  File ""C:\Anaconda3\lib\runpy.py"", line 193, in _run_module_as_main
+    ""__main__"", mod_spec)
+  File ""C:\Anaconda3\lib\runpy.py"", line 85, in _run_code
+    exec(code, run_globals)
+  File ""C:\Anaconda3\lib\site-packages\ipykernel_launcher.py"", line 15, in <module>
+    from ipykernel import kernelapp as app
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\__init__.py"", line 2, in <module>
+    from .connect import *
+  File ""C:\Anaconda3\lib\site-packages\ipykernel\connect.py"", line 13, in <module>
+    from IPython.core.profiledir import ProfileDir
+ModuleNotFoundError: No module named 'IPython'
+[W 19:05:58.671 NotebookApp] KernelRestarter: restart failed
+[W 19:05:58.671 NotebookApp] Kernel 1433cbbf-f4b9-4dd3-be19-e91d7ee3d82f died, removing from map.
+ERROR:root:kernel 1433cbbf-f4b9-4dd3-be19-e91d7ee3d82f restarted failed!
+[W 19:05:58.705 NotebookApp] 410 DELETE /api/sessions/fd456273-adb3-48cd-92f8-d531c9b8f7a8 (::1): Kernel deleted before session
+[W 19:05:58.709 NotebookApp] Kernel deleted before session
+[W 19:05:58.709 NotebookApp] 410 DELETE /api/sessions/fd456273-adb3-48cd-92f8-d531c9b8f7a8 (::1) 4.00ms referer=http://localhost:8888/notebooks/Untitled11.ipynb?kernel_name=python3
+
+```
+
+I have tried to uninstall and then reinstall some modules. However, I was not able to solve the problem. any ideas? THANKS!!",2018/03/16,"[https://Stackoverflow.com/questions/49326164, https://Stackoverflow.com, https://Stackoverflow.com/users/9351684/]","It seems like there is something wrong with the jupyter installation. I recommend upgrading anaconda to v5, which should install jupyter by default(not sure if that is the case for v3, which is what seems to be used in this case). Try installing the missing modules using conda install if you want to stick with conda v3.
+
+```
+conda install -c conda-forge jupyterlab
+conda install -c anaconda ipython
+
+```
+
+[IPython](https://anaconda.org/anaconda/ipython), [Jupyterlab](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html)","I got the same error. Its because we haven't given administrator privilege. You have to install anaconda using administrator. Or run the app as administrator. 
+Just right click on jupyter or spyder then select run as administrator.
+Or while installing anaconda select install as administrator"
+51551370,"I'm using *Ubuntu 18.04* and *boost.asio* to send a POST request to a rest API. When the server is receiving the request it catches it but I can't seem to define its content type. I have a function `collectRequestData` that is supposed to parse the body of the request and return it where it is then saved to a MySQL database. When I print what the function returns it prints `null` when it should be the JSON text it was sent. When I print the `""Content-Type""` before the function is called it prints undefined when I think it should be `""application/json""`. My end goal here is when I run my client code by `./file.o localhost 8080 /licence '{JSON formatted text}'` it connects to localhost port 8080 path /licence (which it does correctly) and then saves the JSON text to the MySQL database. Which it is not doing correctly and I'm pretty sure the cause is the `""Content-Type""` I'm new to working with servers and JavaScript so if anyone sees me doing something wrong please point it out. Also if you could give extra detail to help me understand a suggestion it would be much appreciated.
+
+---
+
+Below is my client code that sends the POST request
+
+```
+#include <iostream>
+#include <istream>
+#include <ostream>
+#include <string>
+#include <boost/asio.hpp>
+
+using boost::asio::ip::tcp;
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+    cout << ""main -start"" << endl;
+    try
+    {
+        boost::asio::io_service io_service;
+        string ipAddress = argv[1]; //""localhost"" for loop back or ip address otherwise, i.e.- www.boost.org;       
+        string portNum = argv[2]; //""8000"" for instance;
+        string hostAddress;
+        if (portNum.compare(""80"") != 0) // add the "":"" only if the port number is not 80 (proprietary port number).
+        {
+            hostAddress = ipAddress + "":"" + portNum;
+        }
+        else 
+        { 
+            hostAddress = ipAddress;
+        }
+        string wordToQuery = """";//this will be used for entry indexing
+        string queryStr = argv[3]; //""/api/v1/similar?word="" + wordToQuery;
+        string json = argv[4];
+
+        // Get a list of endpoints corresponding to the server name.
+        tcp::resolver resolver(io_service);
+        tcp::resolver::query query(ipAddress, portNum);
+        tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
+
+        // Try each endpoint until we successfully establish a connection.
+        tcp::socket socket(io_service);
+        boost::asio::connect(socket, endpoint_iterator);
+
+        // Form the request. We specify the ""Connection: close"" header so that the
+        // server will close the socket after transmitting the response. This will
+        // allow us to treat all data up until the EOF as the content.
+        string typeJSON = application/json;
+        boost::asio::streambuf request;
+        std::ostream request_stream(&request);
+        request_stream << ""POST "" << queryStr << "" HTTP/1.1\r\n"";  // note that you can change it if you wish to HTTP/1.0
+        request_stream << ""Host: "" << hostAddress << ""\r\n"";
+        request_stream << ""User-Agent: C/1.0"";
+        request_stream << ""Content-Type: application/json; charset=utf-8\r\n"";
+        request_stream << ""Accept: */*\r\n"";
+        request_stream << ""Content-Length: "" << json.length() << ""\r\n""; 
+        request_stream << ""Connection: close\r\n\r\n"";
+        request_stream << json;
+
+        // Send the request.
+        boost::asio::write(socket, request);
+
+        // Read the response status line. The response streambuf will automatically
+        // grow to accommodate the entire line. The growth may be limited by passing
+        // a maximum size to the streambuf constructor.
+        boost::asio::streambuf response;
+        boost::asio::read_until(socket, response, ""\r\n"");
+
+        // Check that response is OK.
+        std::istream response_stream(&response);
+        std::string http_version;
+        response_stream >> http_version;
+        unsigned int status_code;
+        response_stream >> status_code;
+        std::string status_message;
+        std::getline(response_stream, status_message);
+        if (!response_stream || http_version.substr(0, 5) != ""HTTP/"")
+        {
+            std::cout << ""Invalid response\n"";
+            return 1;
+        }
+        if (status_code != 200)
+        {
+            std::cout << ""Response returned with status code "" << status_code << ""\n"";
+            return 1;
+        }
+
+        // Read the response headers, which are terminated by a blank line.
+        boost::asio::read_until(socket, response, ""\r\n\r\n"");
+
+        // Process the response headers.
+        std::string header;
+        while (std::getline(response_stream, header) && header != ""\r"")
+        {
+            std::cout << header << ""\n"";
+        }
+
+        std::cout << ""\n"";
+
+        // Write whatever content we already have to output.
+        if (response.size() > 0)
+        {
+            std::cout << &response;
+        }
+
+        // Read until EOF, writing data to output as we go.
+        boost::system::error_code error;
+        while (boost::asio::read(socket, response,boost::asio::transfer_at_least(1), error))
+        {
+            std::cout << &response;
+        }
+
+        if (error != boost::asio::error::eof)
+        {
+            throw boost::system::system_error(error);
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cout << ""Exception: "" << e.what() << ""\n"";
+    }
+
+    return 0;
+}
+
+```
+
+---
+
+Below is the part of my server that handles the POST request
+
+```
+app.post('/licence', function (req, res) {
+    collectRequestData(req, result => {
+        //console.log(request.headers['Content-Type']);
+        console.log(result);
+        sleep(5000);
+        connection.query('INSERT INTO licence SET ?', result, function (error, results) {
+            if (error) throw error;
+            res.end(JSON.stringify(results));
+        });
+        //res.end(`Parsed data belonging to ${result.fname}`);
+    });
+});
+
+function collectRequestData(request, callback) {
+    console.log(request.headers['Content-Type']);
+    const FORM_URLENCODED = 'application/json';
+    if(request.headers['Content-Type'] === FORM_URLENCODED) {
+        let body = '';
+        request.on('data', chunk => {
+            body += chunk.toString();
+        });
+        request.on('end', () => {
+            callback(JSON.parse(body));
+        });
+    }
+    else {
+        callback(null);
+    }
+}
+
+```",2018/07/27,"[https://Stackoverflow.com/questions/51551370, https://Stackoverflow.com, https://Stackoverflow.com/users/9986496/]","You are missing an end of line
+
+```
+request_stream << ""User-Agent: C/1.0"";
+
+```
+
+should be
+
+```
+request_stream << ""User-Agent: C/1.0\r\n"";
+
+```
+
+Means your content type header never gets recognised because it isn't on a separate line","I'm assuming you're using nodeJS for the server
+
+nodejs gives you the request header in lower case
+
+so
+
+```
+function collectRequestData(request, callback) {
+    console.log(request.headers['content-type']);
+    const FORM_URLENCODED = 'application/json';
+    if(request.headers['content-type'] === FORM_URLENCODED) {
+        let body = '';
+
+```
+
+once you fix the other issue identified by @john, of course
+
+i.e. 
+
+> 
+> You are missing an end of line
+> 
+> 
+> `request_stream << ""User-Agent: C/1.0"";`
+> 
+> 
+> should be
+> 
+> 
+> `request_stream << ""User-Agent: C/1.0\r\n"";`
+> 
+> 
+>"
+51551370,"I'm using *Ubuntu 18.04* and *boost.asio* to send a POST request to a rest API. When the server is receiving the request it catches it but I can't seem to define its content type. I have a function `collectRequestData` that is supposed to parse the body of the request and return it where it is then saved to a MySQL database. When I print what the function returns it prints `null` when it should be the JSON text it was sent. When I print the `""Content-Type""` before the function is called it prints undefined when I think it should be `""application/json""`. My end goal here is when I run my client code by `./file.o localhost 8080 /licence '{JSON formatted text}'` it connects to localhost port 8080 path /licence (which it does correctly) and then saves the JSON text to the MySQL database. Which it is not doing correctly and I'm pretty sure the cause is the `""Content-Type""` I'm new to working with servers and JavaScript so if anyone sees me doing something wrong please point it out. Also if you could give extra detail to help me understand a suggestion it would be much appreciated.
+
+---
+
+Below is my client code that sends the POST request
+
+```
+#include <iostream>
+#include <istream>
+#include <ostream>
+#include <string>
+#include <boost/asio.hpp>
+
+using boost::asio::ip::tcp;
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+    cout << ""main -start"" << endl;
+    try
+    {
+        boost::asio::io_service io_service;
+        string ipAddress = argv[1]; //""localhost"" for loop back or ip address otherwise, i.e.- www.boost.org;       
+        string portNum = argv[2]; //""8000"" for instance;
+        string hostAddress;
+        if (portNum.compare(""80"") != 0) // add the "":"" only if the port number is not 80 (proprietary port number).
+        {
+            hostAddress = ipAddress + "":"" + portNum;
+        }
+        else 
+        { 
+            hostAddress = ipAddress;
+        }
+        string wordToQuery = """";//this will be used for entry indexing
+        string queryStr = argv[3]; //""/api/v1/similar?word="" + wordToQuery;
+        string json = argv[4];
+
+        // Get a list of endpoints corresponding to the server name.
+        tcp::resolver resolver(io_service);
+        tcp::resolver::query query(ipAddress, portNum);
+        tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
+
+        // Try each endpoint until we successfully establish a connection.
+        tcp::socket socket(io_service);
+        boost::asio::connect(socket, endpoint_iterator);
+
+        // Form the request. We specify the ""Connection: close"" header so that the
+        // server will close the socket after transmitting the response. This will
+        // allow us to treat all data up until the EOF as the content.
+        string typeJSON = application/json;
+        boost::asio::streambuf request;
+        std::ostream request_stream(&request);
+        request_stream << ""POST "" << queryStr << "" HTTP/1.1\r\n"";  // note that you can change it if you wish to HTTP/1.0
+        request_stream << ""Host: "" << hostAddress << ""\r\n"";
+        request_stream << ""User-Agent: C/1.0"";
+        request_stream << ""Content-Type: application/json; charset=utf-8\r\n"";
+        request_stream << ""Accept: */*\r\n"";
+        request_stream << ""Content-Length: "" << json.length() << ""\r\n""; 
+        request_stream << ""Connection: close\r\n\r\n"";
+        request_stream << json;
+
+        // Send the request.
+        boost::asio::write(socket, request);
+
+        // Read the response status line. The response streambuf will automatically
+        // grow to accommodate the entire line. The growth may be limited by passing
+        // a maximum size to the streambuf constructor.
+        boost::asio::streambuf response;
+        boost::asio::read_until(socket, response, ""\r\n"");
+
+        // Check that response is OK.
+        std::istream response_stream(&response);
+        std::string http_version;
+        response_stream >> http_version;
+        unsigned int status_code;
+        response_stream >> status_code;
+        std::string status_message;
+        std::getline(response_stream, status_message);
+        if (!response_stream || http_version.substr(0, 5) != ""HTTP/"")
+        {
+            std::cout << ""Invalid response\n"";
+            return 1;
+        }
+        if (status_code != 200)
+        {
+            std::cout << ""Response returned with status code "" << status_code << ""\n"";
+            return 1;
+        }
+
+        // Read the response headers, which are terminated by a blank line.
+        boost::asio::read_until(socket, response, ""\r\n\r\n"");
+
+        // Process the response headers.
+        std::string header;
+        while (std::getline(response_stream, header) && header != ""\r"")
+        {
+            std::cout << header << ""\n"";
+        }
+
+        std::cout << ""\n"";
+
+        // Write whatever content we already have to output.
+        if (response.size() > 0)
+        {
+            std::cout << &response;
+        }
+
+        // Read until EOF, writing data to output as we go.
+        boost::system::error_code error;
+        while (boost::asio::read(socket, response,boost::asio::transfer_at_least(1), error))
+        {
+            std::cout << &response;
+        }
+
+        if (error != boost::asio::error::eof)
+        {
+            throw boost::system::system_error(error);
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cout << ""Exception: "" << e.what() << ""\n"";
+    }
+
+    return 0;
+}
+
+```
+
+---
+
+Below is the part of my server that handles the POST request
+
+```
+app.post('/licence', function (req, res) {
+    collectRequestData(req, result => {
+        //console.log(request.headers['Content-Type']);
+        console.log(result);
+        sleep(5000);
+        connection.query('INSERT INTO licence SET ?', result, function (error, results) {
+            if (error) throw error;
+            res.end(JSON.stringify(results));
+        });
+        //res.end(`Parsed data belonging to ${result.fname}`);
+    });
+});
+
+function collectRequestData(request, callback) {
+    console.log(request.headers['Content-Type']);
+    const FORM_URLENCODED = 'application/json';
+    if(request.headers['Content-Type'] === FORM_URLENCODED) {
+        let body = '';
+        request.on('data', chunk => {
+            body += chunk.toString();
+        });
+        request.on('end', () => {
+            callback(JSON.parse(body));
+        });
+    }
+    else {
+        callback(null);
+    }
+}
+
+```",2018/07/27,"[https://Stackoverflow.com/questions/51551370, https://Stackoverflow.com, https://Stackoverflow.com/users/9986496/]","You are missing an end of line
+
+```
+request_stream << ""User-Agent: C/1.0"";
+
+```
+
+should be
+
+```
+request_stream << ""User-Agent: C/1.0\r\n"";
+
+```
+
+Means your content type header never gets recognised because it isn't on a separate line","First of all, i think you should double check whether the server is right or not. Offering one method:
+
+```
+curl ""http://localhost:8080/licence"" --data ""{json format text}"" -v
+
+```
+
+If this command responses the same result as yours, it is the problem of server.
+If not, try to assemble the same request package content in your code as the curl, especially ""\r\n"" and so on."

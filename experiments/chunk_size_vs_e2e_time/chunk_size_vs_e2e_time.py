@@ -11,6 +11,7 @@ import tempfile
 import json
 import sys
 from io import StringIO
+import wandb
 
 from sarathi.config import ModelConfig, ParallelConfig, SarathiSchedulerConfig, MetricsConfig, SystemConfig, ReplicaConfig
 from sarathi import LLMEngine, SamplingParams, RequestOutput
@@ -19,18 +20,46 @@ from sarathi.metrics.constants import SequenceMetricsTimeDistributions
 OUTPUT_DIR = "/work/nvme/bdkz/yyu69/sarathi-serve/experiment_results"
 
 def load_prompts(path: str) -> List[str]:
-    """
-    Load prompts from a JSON file based on size ('small', 'medium', 'large', 'xlarge')
-    Returns a list of 4 prompts for the given size
-    """
     try:
         with open(path, "r") as f:
             prompts_data = json.load(f)
-            if len(prompts_data) < 4:
-                raise ValueError(f"Not enough prompts in {path}. Expected 4, got {len(prompts_data)}")
-            return prompts_data[:4]  # Take first 4 prompts if more are provided
+            return prompts_data
     except FileNotFoundError:
         raise FileNotFoundError(f"Prompts file {path} not found. Please create the file first.")
+
+def load_prompts_from_csv(path: str, column_name: str = "question") -> List[str]:
+    """
+    Load prompts from a CSV file using the specified column.
+    
+    Args:
+        path: Path to the CSV file containing prompts
+        column_name: Name of the column containing the prompts (default: "question")
+        
+    Returns:
+        List of prompt strings
+    """
+    try:
+        # Read the CSV file
+        df = pd.read_csv(path)
+        
+        # Check if the column exists
+        if column_name not in df.columns:
+            available_columns = ", ".join(df.columns)
+            raise ValueError(f"Column '{column_name}' not found in CSV. Available columns: {available_columns}")
+        
+        # Extract prompts from the specified column
+        prompts = df[column_name].tolist()
+        
+        # Remove any NaN values and convert to strings
+        prompts = [str(prompt) for prompt in prompts if not pd.isna(prompt)]
+        
+        print(f"Loaded {len(prompts)} prompts from {path}")
+        return prompts[:8]
+        
+    except FileNotFoundError:
+        raise FileNotFoundError(f"CSV file {path} not found. Please create the file first.")
+    except Exception as e:
+        raise Exception(f"Error loading prompts from CSV: {str(e)}")
 
 def generate(llm_engine: LLMEngine, prompts: List[str], sampling_params: SamplingParams) -> List[RequestOutput]:
     for prompt in prompts:
@@ -82,13 +111,13 @@ def run_inference_with_chunk_size(chunk_size: int, prompts: List[str], sampling_
     )
 
     parallel_config = ParallelConfig(
-        tensor_parallel_size=4,
+        tensor_parallel_size=1,
         pipeline_parallel_size=1,
     )
 
     scheduler_config = SarathiSchedulerConfig(
         chunk_size=chunk_size,
-        max_num_seqs=8,
+        max_num_seqs=16,
     )
 
     metrics_config = MetricsConfig(
@@ -124,23 +153,27 @@ def run_inference_with_chunk_size(chunk_size: int, prompts: List[str], sampling_
     # Extract the e2e time metrics
     metrics_store = llm_engine.get_metric_store()
     e2e_time_metrics = metrics_store.seq_metrics_time_distributions[SequenceMetricsTimeDistributions.REQUEST_E2E_TIME]
+    prefill_time_metrics = metrics_store.seq_metrics_time_distributions[SequenceMetricsTimeDistributions.PREFILL_TIME_E2E]
+    
+    # Extract decode time metrics from the normalized distribution
+    decode_time_metrics_normalized = metrics_store.seq_metrics_time_distributions[SequenceMetricsTimeDistributions.DECODE_TIME_EXECUTION_PLUS_PREEMPTION_NORMALIZED]
     
     # Calculate average e2e time
     e2e_times = [y for _, y in e2e_time_metrics.data_series]
     avg_e2e_time = sum(e2e_times) / len(e2e_times) if e2e_times else 0
-
-    # !!! ADD SHUTDOWN CALL HERE !!!
-    print("Shutting down LLM engine...")
-    try:
-        if hasattr(llm_engine, 'shutdown'):
-            llm_engine.shutdown()
-        elif hasattr(llm_engine, 'close'):
-             llm_engine.close()
-        else:
-            print("Warning: Could not find explicit engine shutdown method.")
-    except Exception as e:
-        print(f"Error during engine shutdown: {e}")
-    print("Engine shutdown complete.")
+    
+    # Calculate prefill times
+    prefill_times = [y for _, y in prefill_time_metrics.data_series]
+    avg_prefill_time = sum(prefill_times) / len(prefill_times) if prefill_times else 0
+    
+    # Calculate decode times (total decode time = e2e time - prefill time)
+    decode_times = [e - p for e, p in zip(e2e_times, prefill_times)]
+    avg_decode_time = sum(decode_times) / len(decode_times) if decode_times else 0
+    
+    # Calculate avg token/sec for decode phase
+    output_tokens = [len(output.text.split()) for output in outputs]
+    token_per_sec = [tokens / time for tokens, time in zip(output_tokens, decode_times)]
+    avg_token_per_sec = sum(token_per_sec) / len(token_per_sec) if token_per_sec else 0
     
     # Print summary for this run
     print("===========================================================")
@@ -152,6 +185,11 @@ def run_inference_with_chunk_size(chunk_size: int, prompts: List[str], sampling_
         "chunk_size": chunk_size,
         "avg_e2e_time": avg_e2e_time,
         "e2e_times": e2e_times,
+        "avg_prefill_time": avg_prefill_time,
+        "prefill_times": prefill_times,
+        "avg_decode_time": avg_decode_time,
+        "decode_times": decode_times,
+        "avg_token_per_sec": avg_token_per_sec,
         "prompt_tokens": prompt_tokens,
         "avg_prompt_tokens": avg_prompt_tokens
     }
@@ -225,7 +263,7 @@ def plot_combined_results(all_results: List[List[Dict]], output_dir: str, timest
     
     plt.xlabel('Chunk Size')
     plt.ylabel('E2E Time (s)')
-    plt.title('Chunk Size vs Request End-to-End Time\nComparison of Different Prompt Lengths')
+    plt.title('Chunk Size vs Request End-to-End Time\nComparison of Different Prompt Lengths (llama-3-8b)')
     plt.grid(True)
     plt.legend(loc='upper left', bbox_to_anchor=(1.02, 1.0))
     
@@ -238,10 +276,101 @@ def plot_combined_results(all_results: List[List[Dict]], output_dir: str, timest
     print(f"Combined E2E time plot saved to {e2e_plot_path}")
     
     plt.close()
+    
+    # Save detailed timing results as CSV
+    detailed_results = []
+    for prompt_idx, results in enumerate(all_results):
+        for result in results:
+            chunk_size = result["chunk_size"]
+            for i in range(len(result["e2e_times"])):
+                detailed_results.append({
+                    "prompt_idx": prompt_idx + 1,
+                    "chunk_size": chunk_size,
+                    "e2e_time": result["e2e_times"][i],
+                    "prefill_time": result["prefill_times"][i],
+                    "decode_time": result["decode_times"][i],
+                    "prompt_tokens": result["prompt_tokens"][i] if i < len(result["prompt_tokens"]) else None,
+                })
+    
+    # Save detailed results
+    detailed_df = pd.DataFrame(detailed_results)
+    detailed_csv_path = f"{results_dir}/detailed_timing_metrics.csv"
+    detailed_df.to_csv(detailed_csv_path, index=False)
+    print(f"Detailed timing metrics saved to {detailed_csv_path}")
+    
+    # Create summary table with averages
+    summary_results = []
+    for prompt_idx, results in enumerate(all_results):
+        for result in results:
+            summary_results.append({
+                "prompt_idx": prompt_idx + 1,
+                "chunk_size": result["chunk_size"],
+                "avg_prompt_tokens": result["avg_prompt_tokens"],
+                "avg_e2e_time": result["avg_e2e_time"],
+                "avg_prefill_time": result["avg_prefill_time"],
+                "avg_decode_time": result["avg_decode_time"],
+                "avg_token_per_sec": result["avg_token_per_sec"],
+            })
+    
+    # Save summary results
+    summary_df = pd.DataFrame(summary_results)
+    summary_csv_path = f"{results_dir}/timing_summary.csv"
+    summary_df.to_csv(summary_csv_path, index=False)
+    print(f"Timing summary saved to {summary_csv_path}")
+    
+    # Create an additional plot for prefill and decode times
+    plt.figure(figsize=(12, 8))
+    
+    # For each chunk size, plot e2e, prefill, and decode times as stacked bar chart
+    chunk_sizes = sorted(list(set([result["chunk_size"] for results in all_results for result in results])))
+    x = np.arange(len(chunk_sizes))
+    width = 0.25
+    
+    # Get averages for each chunk size
+    chunk_size_avg = {}
+    for chunk_size in chunk_sizes:
+        chunk_results = [r for results in all_results for r in results if r["chunk_size"] == chunk_size]
+        chunk_size_avg[chunk_size] = {
+            "prefill": sum(r["avg_prefill_time"] for r in chunk_results) / len(chunk_results),
+            "decode": sum(r["avg_decode_time"] for r in chunk_results) / len(chunk_results)
+        }
+    
+    # Plot prefill times
+    prefill_times = [chunk_size_avg[cs]["prefill"] for cs in chunk_sizes]
+    decode_times = [chunk_size_avg[cs]["decode"] for cs in chunk_sizes]
+    
+    plt.bar(x, prefill_times, width, label='Prefill Time')
+    plt.bar(x, decode_times, width, bottom=prefill_times, label='Decode Time')
+    
+    plt.xlabel('Chunk Size')
+    plt.ylabel('Time (s)')
+    plt.title('Prefill and Decode Times by Chunk Size')
+    plt.xticks(x, chunk_sizes)
+    plt.legend()
+    
+    # Save timing breakdown plot
+    timing_plot_path = f"{results_dir}/prefill_decode_time_breakdown.png"
+    plt.savefig(timing_plot_path, dpi=300, bbox_inches='tight')
+    print(f"Timing breakdown plot saved to {timing_plot_path}")
+    
+    plt.close()
 
 def main():
     # Create timestamp for the experiment
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    
+    # Initialize wandb with a dummy project if you don't want to use wandb directly
+    wandb_run = wandb.init(
+        project=args.wandb_project,
+        group=args.wandb_group,
+        name=f"chunk_size_experiment_{timestamp}",
+        config={
+            "model": args.model,
+            "output_dir": args.output_dir,
+            "experiment_timestamp": timestamp,
+            "experiment_name": args.experiment_name,
+        }
+    )
     
     print(f"Starting experiment at {timestamp}")
     
@@ -256,8 +385,8 @@ def main():
     # Define chunk sizes and prompt paths
     prompt_configs = [
         {
-            "path": "/work/nvme/bdkz/yyu69/sarathi-serve/data/prompt_4096.json",
-            "chunk_sizes": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+            "path": "/work/nvme/bdkz/yyu69/sarathi-serve/data/long-questions-in-train-set.csv",
+            "chunk_sizes": [16, 32, 64, 128, 256, 512, 1024, 2048]
         },
     ]
     
@@ -266,7 +395,7 @@ def main():
     # Run experiments for each prompt file with its corresponding chunk sizes
     for config in prompt_configs:
         results = []
-        prompts = load_prompts(config["path"])
+        prompts = load_prompts_from_csv(config["path"])
         
         print(f"\nRunning inference for prompts from {config['path']}")
         for chunk_size in config["chunk_sizes"]:
@@ -285,14 +414,17 @@ def main():
     # Plot combined results
     plot_combined_results(all_results, args.output_dir, timestamp)
     
-    print(f"\nExperiment completed. Results saved to {args.output_dir}/chunk_size_experiment_{timestamp}")
+    # Finish the wandb run
+    wandb.finish()
 
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-dir", type=str, default=OUTPUT_DIR, help="Directory to save experiment results and plots")
-    parser.add_argument("--model", type=str, default="meta-llama/Meta-Llama-3-8B-Instruct", help="Model to use for inference")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen2.5-Coder-3B-Instruct", help="Model to use for inference")
     parser.add_argument("--experiment-name", type=str, default="", help="Optional name for the experiment (will be included in output directory)")
+    parser.add_argument("--wandb-project", type=str, default="sarathi-chunk-size-experiment", help="Weights & Biases project name")
+    parser.add_argument("--wandb-group", type=str, default="chunk-size-vs-e2e-time", help="Weights & Biases group name")
     args = parser.parse_args()
     
     main()

@@ -1,0 +1,2 @@
+prompt_idx,chunk_size,avg_prompt_tokens,avg_e2e_time,avg_prefill_time,avg_decode_time,avg_token_per_sec
+1,512,1536.0,10.411826507886872,0.4942542197823059,9.917572288104566,27.898147970530324

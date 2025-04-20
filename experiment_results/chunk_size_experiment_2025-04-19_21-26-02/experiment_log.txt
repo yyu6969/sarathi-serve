@@ -1,0 +1,49 @@
+Experiment: Chunk Size vs E2E Time
+Timestamp: 2025-04-19_21-26-02
+Model: meta-llama/Meta-Llama-3-8B-Instruct
+WandB URL: https://wandb.ai/yyu69-university-of-illinois-urbana-champaign/sarathi-chunk-size-experiment/runs/e6ozv20c
+
+Prompt file 1: /work/nvme/bdkz/yyu69/sarathi-serve/data/prompt_4096.json
+Chunk sizes: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+
+Results Summary:
+  Chunk size: 100
+  Avg e2e time: 12.9392 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 200
+  Avg e2e time: 10.6860 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 300
+  Avg e2e time: 12.7815 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 400
+  Avg e2e time: 10.4644 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 500
+  Avg e2e time: 10.3184 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 600
+  Avg e2e time: 11.8617 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 700
+  Avg e2e time: 12.8061 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 800
+  Avg e2e time: 12.6380 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 900
+  Avg e2e time: 12.7060 seconds
+  Avg prompt tokens: 4094.0
+
+  Chunk size: 1000
+  Avg e2e time: 12.6930 seconds
+  Avg prompt tokens: 4094.0
+
